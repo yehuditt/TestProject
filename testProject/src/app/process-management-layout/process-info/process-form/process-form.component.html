@@ -1,0 +1,44 @@
+<p>==============================================================================================</p>
+<form class="col-xs-12"  #processForm="ngForm">
+
+    <div class="form-group col-xs-3">
+        <label>סוג תביעת על*</label>
+        <select class="form-control" #type="ngModel" name="type"  (change)="changeForm(processForm.form.valid)" required
+            [(ngModel)]="claim.superClaimType">
+            <option *ngFor="let type of superClaimType" [ngValue]="type">{{type.value}}</option>
+        </select>
+    </div>
+    <div class="form-group col-xs-3">
+        <label>תאריך אירוע*</label>
+        <input type="date" class="form-control" name="date" (change)="changeForm(processForm.form.valid)" [(ngModel)]="claim.eventDate" #date="ngModel" required
+            name="name">
+
+    </div>
+    <div class="form-group col-xs-3">
+        <label>סיבת האירוע*</label>
+        <select class="form-control" #cause="ngModel" name="cause" (change)="changeForm(processForm.form.valid)" required
+            [(ngModel)]="claim.claimCause">
+            <option *ngFor="let cause of claimCause" [ngValue]="cause">{{cause.value}}</option>
+        </select>
+    </div>
+    <div class="form-group col-xs-3">
+        <label>מהות האירוע<span *ngIf="claim.claimCause.code">*</span></label>
+        <select class="form-control" #ccause="ngModel" name="ccause" (change)="changeForm(processForm.form.valid)" [disabled]="!claim.claimCause.code"
+            [required]="claim.claimCause" [(ngModel)]="claim.injuryType">
+            <option *ngFor="let jType of injuryType" [ngValue]="jType">{{jType.value}}</option>
+        </select>
+    </div>
+    <div class="form-group col-xs-3">
+        <label> הוגשה באמצעות* </label>
+        <select class="form-control" #sBy="ngModel" name="sBy"  (change)="changeForm(processForm.form.valid)" required [(ngModel)]="claim.submitedBy">
+            <option *ngFor="let sBy of submitedBy" [value]="sBy.code">{{sBy.value}}</option>
+        </select>
+    </div>
+    <div class="form-group col-xs-3">
+        <label> אופן קבלת התביעה</label>
+        <select class="form-control" #meth="ngModel" name="meth" (change)="changeForm(processForm.form.valid)"
+            [(ngModel)]="claim.submitionMethod">
+            <option *ngFor="let method of submitionMethod" [ngValue]="method">{{method.value}}</option>
+        </select>
+    </div>
+</form>

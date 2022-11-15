@@ -1,0 +1,4 @@
+<h2>ריכוז מידע בתהליך</h2>
+<app-insuerd-details [insured]="process.insured"></app-insuerd-details>
+<app-process-form [claim]="process.superClaim" (isValideFormChange)="isValideFormChangeFunc($event)"
+(claimFormChange)="claimFormChangeFunc($event)" [refreshForm]="refreshForm"></app-process-form>

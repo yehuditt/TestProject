@@ -1,0 +1,70 @@
+<h3 class="col-xs-12">אנשי קשר</h3>
+<table class="table table-striped col-xs-10">
+    <thead>
+        <tr>
+            <th scope="col">מועדף</th>
+            <th scope="col">שם איש קשר</th>
+            <th scope="col">סוג</th>
+            <th scope="col">כתובת</th>
+            <th scope="col">טלפון נייד</th>
+            <th scope="col">דואר אלקטרוני</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person of contactPersons">
+            <td>
+                <input class="form-check-input mt-0" type="checkbox" disabled [checked]="person.deliveryFlag">
+            </td>
+            <td>{{person.name}}</td>
+            <td>{{getSubmitedByValue(person.type.code)}}</td>
+            <td>{{person.address}}</td>
+            <td>{{person.phoneNumber| phone }}</td>
+            <td>{{person.email}}</td>
+            <td></td>
+        </tr>
+        <tr *ngIf="addingNew" ng-form name="newContactForm">
+
+            <td>
+                <input class="form-check-input mt-0" type="checkbox" [(ngModel)]="newContact.deliveryFlag" name="df">
+            </td>
+            <td><input type="text" required pattern="onlyHebrewPattern" [(ngModel)]="newContact.name" #name="ngModel"
+                    name="name">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
+                    <div class="invalid-feedback" *ngIf="name.errors?.['required']">
+                        שדה חובה
+                    </div>
+                    <div class="invalid-feedback" *ngIf="name.errors?.['pattern']">
+                        תווים לא חוקיים
+                    </div>
+                </div>
+            </td>
+            <td>
+                <select class="form-control" required name="type" required [(ngModel)]="newContact.type.code">
+                    <option *ngFor="let sBy of submitedBy" [value]="sBy.code">{{sBy.value}}</option>
+                </select>
+            </td>
+            <td><input type="text" [(ngModel)]="newContact.address" name="add"></td>
+            <td><input type="text" required [(ngModel)]="newContact.phoneNumber" #phone="ngModel" name="phone"
+                    minlength="10" maxlength="10">
+                <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert">
+                    <div class="invalid-feedback" *ngIf="phone.errors?.['minlength']||phone.errors?.['maxlength']">
+                        אורך לא תקין </div>
+                    <div class="invalid-feedback" *ngIf="phone.errors?.['pattern']">
+                        ספרות בלבד </div>
+                </div>
+            </td>
+            <td><input type="text" [(ngModel)]="newContact.email" name="email" #email="ngModel" pattern="emailPattern">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert">
+                    <div class="invalid-feedback" *ngIf="email.errors?.['pattern']">
+                        כתובת דוא"ל לא חוקית </div>
+                </div>
+            </td>
+            <td><button type="submit" class="btn btn-link" (click)="addNewContactToList()">+</button>
+
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+<button type="button" class="btn btn-link col-xs-12" (click)="addNewContact()">הוסף איש קשר</button>
